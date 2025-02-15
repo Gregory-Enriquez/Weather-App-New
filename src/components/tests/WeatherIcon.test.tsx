@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import WeatherIcon from './WeatherIcon';
+import WeatherIcon from '../WeatherIcon';
 
 describe('WeatherIcon', () => {
   it('renders the sun icon for clear sky (01d)', () => {

@@ -1,7 +1,7 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import WeatherApp from './WeatherApp'; // Ruta relativa // Usa alias
-import { getWeatherByCity, getForecast } from '../services/WeatherService'; // Ruta relativa
-import { getCityImage } from '../services/unsplashService'; // Ruta relativa // Usa alias
+import WeatherApp from '../WeatherApp'; // Ruta relativa // Usa alias
+import { getWeatherByCity, getForecast } from '../../services/WeatherService'; // Ruta relativa
+import { getCityImage } from '../../services/unsplashService'; // Ruta relativa // Usa alias
 import { vi } from 'vitest';
 
 // Mock de los servicios

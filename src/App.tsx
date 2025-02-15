@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
 import { getWeatherByCity, getWeatherByCoords, getForecast } from './services/WeatherService';
 import { getCityImage } from './services/unsplashService';
-import WeatherIcon from './components/WeatherIcon';
-import { translateWeather } from './utils/translateWeather';
 import { auth, signOut } from './firebaseConfig';
 import { useNavigate } from 'react-router-dom';
-import { FaThermometerHalf, FaTint, FaWind, FaGoogle, FaGithub, FaSignOutAlt } from 'react-icons/fa';
+import WeatherDisplay from './components/WeatherDisplay';
+import ForecastDisplay from './components/ForecastDisplay';
+import SearchBar from './components/SearchBar';
+import UserInfo from './components/UserInfo';
+import { User } from 'firebase/auth'; // Importar User de Firebase
 
-// Interfaces para los datos del clima y el usuario
+// Definir los tipos directamente en el archivo
 interface WeatherData {
   name: string;
   weather: { icon: string; description: string }[];
@@ -22,11 +24,6 @@ interface ForecastData {
   weather: { icon: string; description: string }[];
 }
 
-interface User {
-  email: string;
-  providerData: { providerId: string }[];
-}
-
 const App = () => {
   const [city, setCity] = useState('');
   const [weather, setWeather] = useState<WeatherData | null>(null);
@@ -34,11 +31,11 @@ const App = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [cityImage, setCityImage] = useState<string | null>(null);
-  const [user, setUser] = useState<User | null>(null); // Usuario autenticado
-  const [showEmail, setShowEmail] = useState(false); // Mostrar/ocultar el correo
+  const [user, setUser] = useState<User | null>(null); // Usar el tipo User de Firebase
+  const [showEmail, setShowEmail] = useState(false);
   const navigate = useNavigate();
 
-  // Fondo dinámico según el clima
+  // Función para obtener la clase de fondo según el código del clima
   const getBackgroundClass = (code: string) => {
     if (code === '01d' || code === '01n') {
       return 'bg-gradient-to-br from-yellow-200 to-orange-300'; // Soleado
@@ -59,12 +56,7 @@ const App = () => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        setUser({
-          email: user.email || '',
-          providerData: user.providerData.map((provider) => ({
-            providerId: provider.providerId,
-          })),
-        });
+        setUser(user); // Pasar el objeto user completo
       } else {
         navigate('/login');
       }
@@ -92,8 +84,7 @@ const App = () => {
             setLoading(false);
           }
         },
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        (err) => {
+        () => {
           setError('No se pudo obtener tu ubicación.');
           setLoading(false);
         }
@@ -104,6 +95,7 @@ const App = () => {
     }
   }, []);
 
+  // Manejar la búsqueda de una ciudad
   const handleSearch = async () => {
     if (!city) return;
     setLoading(true);
@@ -123,6 +115,7 @@ const App = () => {
     }
   };
 
+  // Manejar el cierre de sesión
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -138,81 +131,25 @@ const App = () => {
         weather ? getBackgroundClass(weather.weather[0].icon) : 'bg-gradient-to-br from-gray-100 to-gray-300'
       }`}
     >
-      {/* Barra superior con el botón de cerrar sesión y el logo de Google/GitHub */}
+      {/* Barra superior con la información del usuario y el botón de cerrar sesión */}
       {user && (
-        <div className="absolute top-4 right-4 bg-white bg-opacity-80 p-2 rounded-lg shadow-sm">
-          <div className="flex items-center space-x-3">
-            {/* Logo de Google o GitHub */}
-            <div
-              className="cursor-pointer"
-              onClick={() => setShowEmail(!showEmail)}
-            >
-              {user.providerData[0].providerId === 'google.com' ? (
-                <FaGoogle className="text-gray-700 text-lg" />
-              ) : (
-                <FaGithub className="text-gray-700 text-lg" />
-              )}
-            </div>
-            {/* Botón de cerrar sesión */}
-            <button
-              onClick={handleLogout}
-              className="bg-red-500 text-white px-2 py-1 rounded-md text-sm hover:bg-red-600 transition-colors flex items-center space-x-1"
-            >
-              <FaSignOutAlt className="text-sm" />
-              <span>Cerrar sesión</span>
-            </button>
-          </div>
-          {/* Mostrar el correo debajo si showEmail es true */}
-          {showEmail && (
-            <p className="text-gray-700 text-sm mt-2 text-center">{user.email}</p>
-          )}
-        </div>
+        <UserInfo user={user} handleLogout={handleLogout} showEmail={showEmail} setShowEmail={setShowEmail} />
       )}
 
+      {/* Contenedor principal */}
       <div className="bg-white bg-opacity-90 p-8 rounded-lg shadow-2xl w-full max-w-4xl backdrop-blur-sm">
         <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">App del Clima</h1>
-        <div className="flex flex-col space-y-4">
-          <input
-            type="text"
-            placeholder="Ingresa una ciudad"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            className="border p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <button
-            onClick={handleSearch}
-            disabled={loading}
-            className="bg-blue-500 text-white p-3 rounded-lg w-full hover:bg-blue-600 disabled:bg-blue-300 transition-colors"
-          >
-            {loading ? 'Buscando...' : 'Buscar'}
-          </button>
-        </div>
+
+        {/* Barra de búsqueda */}
+        <SearchBar city={city} setCity={setCity} handleSearch={handleSearch} loading={loading} />
+
+        {/* Mensaje de error */}
         {error && <p className="text-red-500 mt-4 text-center">{error}</p>}
+
+        {/* Mostrar el clima actual */}
         {weather && (
           <div className={`mt-6 ${cityImage ? 'grid grid-cols-1 md:grid-cols-2 gap-6' : 'text-center'}`}>
-            {/* Sección del clima actual */}
-            <div>
-              <h2 className="text-2xl font-semibold text-gray-800">{weather.name}</h2>
-              <div className="flex justify-center mt-4">
-                <WeatherIcon code={weather.weather[0].icon} />
-              </div>
-              <p className="text-gray-700 text-lg mt-2">{translateWeather(weather.weather[0].description)}</p>
-              <div className="flex justify-center space-x-6 mt-4">
-                <div className="flex items-center space-x-2">
-                  <FaThermometerHalf className="text-gray-700 text-xl" />
-                  <p className="text-gray-700">{weather.main.temp}°C</p>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <FaTint className="text-gray-700 text-xl" />
-                  <p className="text-gray-700">{weather.main.humidity}%</p>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <FaWind className="text-gray-700 text-xl" />
-                  <p className="text-gray-700">{weather.wind.speed} m/s</p>
-                </div>
-              </div>
-            </div>
-            {/* Sección de la imagen de la ciudad */}
+            <WeatherDisplay weather={weather} />
             {cityImage && (
               <div className="flex justify-center items-center">
                 <img
@@ -224,33 +161,9 @@ const App = () => {
             )}
           </div>
         )}
-        {/* Pronóstico */}
-        {forecast.length > 0 && (
-          <div className="mt-6">
-            <h3 className="text-xl font-semibold text-gray-800 mb-4">Pronóstico de las próximas 12 horas</h3>
-            <div className="space-y-3">
-              {forecast.map((item, index) => (
-                <div
-                  key={index}
-                  className="flex justify-between items-center bg-white bg-opacity-80 p-3 rounded-lg shadow-sm hover:shadow-md transition-shadow"
-                >
-                  <p className="text-gray-700">
-                    {new Date(item.dt * 1000).toLocaleTimeString('es-MX', {
-                      hour: '2-digit',
-                      minute: '2-digit',
-                      hour12: true,
-                    })}
-                  </p>
-                  <div className="flex items-center space-x-2">
-                    <WeatherIcon code={item.weather[0].icon} />
-                    <p className="text-gray-700">{item.main.temp}°C</p>
-                    <p className="text-gray-700">{translateWeather(item.weather[0].description)}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+
+        {/* Mostrar el pronóstico */}
+        {forecast.length > 0 && <ForecastDisplay forecast={forecast} />}
       </div>
     </div>
   );

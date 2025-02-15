@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom'; // Importa jest-dom
-import Auth from './Auth';
-import { auth, GoogleAuthProvider, GithubAuthProvider, signInWithPopup, signOut } from '../firebaseConfig';
+import Auth from '../Auth';
+import { auth, GoogleAuthProvider, GithubAuthProvider, signInWithPopup, signOut } from '../../firebaseConfig';
 import { User, NextOrObserver } from 'firebase/auth'; // Importa los tipos necesarios de Firebase
 
 // Mock de Firebase

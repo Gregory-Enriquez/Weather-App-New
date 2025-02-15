@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import Login from './Login';
+import Login from '../Login';
 import '@testing-library/jest-dom';
-import { auth, GoogleAuthProvider, GithubAuthProvider, signInWithPopup } from '../firebaseConfig';
+import { auth, GoogleAuthProvider, GithubAuthProvider, signInWithPopup } from '../../firebaseConfig';
 import { User, NextOrObserver } from 'firebase/auth';
 import { MemoryRouter, useNavigate } from 'react-router-dom';
 
