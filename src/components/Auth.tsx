@@ -1,13 +1,13 @@
-// src/components/Auth.tsx
 import { useState, useEffect } from 'react';
 import { auth, GoogleAuthProvider, GithubAuthProvider, signInWithPopup, signOut } from '../firebaseConfig';
+import { User } from 'firebase/auth'; // Importar el tipo User de Firebase
 
 const Auth = () => {
-  const [user, setUser] = useState<unknown>(null);
+  const [user, setUser] = useState<User | null>(null); // Definir el tipo de user como User | null
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      setUser(user);
+      setUser(user); // Firebase devuelve User | null
     });
     return () => unsubscribe();
   }, []);
@@ -30,7 +30,8 @@ const Auth = () => {
     <div>
       {user ? (
         <div className="flex items-center space-x-4">
-          <p className="text-sm">Bienvenido, {user.displayName}</p>
+          {/* Mostrar el nombre del usuario si existe */}
+          <p className="text-sm">Bienvenido, {user.displayName || user.email}</p>
           <button
             onClick={handleLogout}
             className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
