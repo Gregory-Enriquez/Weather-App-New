@@ -7,6 +7,7 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
+    setupFiles: './src/setupTests.ts', // Archivo de configuración de pruebas
     coverage: {
       provider: 'istanbul', // Usa Istanbul para el reporte de cobertura
       reporter: ['text', 'json', 'html'], // Formatos de reporte

@@ -3,17 +3,31 @@ import { getWeatherByCity, getWeatherByCoords, getForecast } from '../services/W
 import { getCityImage } from '../services/unsplashService';
 import WeatherIcon from './WeatherIcon';
 import { translateWeather } from '../utils/translateWeather';
-import { FaThermometerHalf, FaTint, FaWind } from 'react-icons/fa';
+import { FaGithub, FaGoogle, FaSignOutAlt, FaThermometerHalf, FaTint, FaWind } from 'react-icons/fa';
 
 interface WeatherAppProps {
-  user: any; // Usuario autenticado
+  user: { email: string; providerData: { providerId: string }[] }; // Usuario autenticado
   handleLogout: () => void; // Función para cerrar sesión
 }
 
 const WeatherApp = ({ user, handleLogout }: WeatherAppProps) => {
   const [city, setCity] = useState('');
-  const [weather, setWeather] = useState<any>(null);
-  const [forecast, setForecast] = useState<any[]>([]);
+  interface WeatherData {
+    name: string;
+    weather: { icon: string; description: string }[];
+    main: { temp: number; humidity: number };
+    wind: { speed: number };
+    coord: { lat: number; lon: number };
+  }
+
+  const [weather, setWeather] = useState<WeatherData | null>(null);
+  interface ForecastData {
+    dt: number;
+    main: { temp: number };
+    weather: { icon: string; description: string }[];
+  }
+
+  const [forecast, setForecast] = useState<ForecastData[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [cityImage, setCityImage] = useState<string | null>(null);
@@ -49,13 +63,13 @@ const WeatherApp = ({ user, handleLogout }: WeatherAppProps) => {
             setWeather(weatherData);
             setForecast(forecastData.list);
             setError('');
-          } catch (err) {
+          } catch {
             setError('Error al cargar el clima de tu ubicación.');
           } finally {
             setLoading(false);
           }
         },
-        (err) => {
+        () => {
           setError('No se pudo obtener tu ubicación.');
           setLoading(false);
         }
@@ -77,7 +91,7 @@ const WeatherApp = ({ user, handleLogout }: WeatherAppProps) => {
       setForecast(forecastData.list);
       setCityImage(image); // Establecer la imagen de la ciudad
       setError('');
-    } catch (err) {
+    } catch {
       setError('Ciudad no encontrada. Intenta de nuevo.');
     } finally {
       setLoading(false);

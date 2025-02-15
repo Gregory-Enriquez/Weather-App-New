@@ -7,15 +7,35 @@ import { auth, signOut } from './firebaseConfig';
 import { useNavigate } from 'react-router-dom';
 import { FaThermometerHalf, FaTint, FaWind, FaGoogle, FaGithub, FaSignOutAlt } from 'react-icons/fa';
 
+// Interfaces para los datos del clima y el usuario
+interface WeatherData {
+  name: string;
+  weather: { icon: string; description: string }[];
+  main: { temp: number; humidity: number };
+  wind: { speed: number };
+  coord: { lat: number; lon: number };
+}
+
+interface ForecastData {
+  dt: number;
+  main: { temp: number };
+  weather: { icon: string; description: string }[];
+}
+
+interface User {
+  email: string;
+  providerData: { providerId: string }[];
+}
+
 const App = () => {
   const [city, setCity] = useState('');
-  const [weather, setWeather] = useState<any>(null);
-  const [forecast, setForecast] = useState<any[]>([]);
+  const [weather, setWeather] = useState<WeatherData | null>(null);
+  const [forecast, setForecast] = useState<ForecastData[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [cityImage, setCityImage] = useState<string | null>(null);
-  const [user, setUser] = useState<any>(null); // Estado para el usuario autenticado
-  const [showEmail, setShowEmail] = useState(false); // Estado para mostrar/ocultar el correo
+  const [user, setUser] = useState<User | null>(null); // Usuario autenticado
+  const [showEmail, setShowEmail] = useState(false); // Mostrar/ocultar el correo
   const navigate = useNavigate();
 
   // Fondo dinámico según el clima
@@ -39,7 +59,12 @@ const App = () => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        setUser(user); // Establecer el usuario autenticado
+        setUser({
+          email: user.email || '',
+          providerData: user.providerData.map((provider) => ({
+            providerId: provider.providerId,
+          })),
+        });
       } else {
         navigate('/login');
       }
@@ -60,12 +85,14 @@ const App = () => {
             setWeather(weatherData);
             setForecast(forecastData.list);
             setError('');
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           } catch (err) {
             setError('Error al cargar el clima de tu ubicación.');
           } finally {
             setLoading(false);
           }
         },
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         (err) => {
           setError('No se pudo obtener tu ubicación.');
           setLoading(false);
@@ -83,11 +110,12 @@ const App = () => {
     try {
       const weatherData = await getWeatherByCity(city);
       const forecastData = await getForecast(weatherData.coord.lat, weatherData.coord.lon);
-      const image = await getCityImage(city); // Obtener imagen de la ciudad
+      const image = await getCityImage(city);
       setWeather(weatherData);
       setForecast(forecastData.list);
-      setCityImage(image); // Establecer la imagen de la ciudad
+      setCityImage(image);
       setError('');
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       setError('Ciudad no encontrada. Intenta de nuevo.');
     } finally {
@@ -97,8 +125,8 @@ const App = () => {
 
   const handleLogout = async () => {
     try {
-      await signOut(auth); // Cerrar sesión
-      navigate('/login'); // Redirigir al login
+      await signOut(auth);
+      navigate('/login');
     } catch (error) {
       console.error('Error al cerrar sesión:', error);
     }
@@ -117,7 +145,7 @@ const App = () => {
             {/* Logo de Google o GitHub */}
             <div
               className="cursor-pointer"
-              onClick={() => setShowEmail(!showEmail)} // Mostrar/ocultar el correo al hacer clic
+              onClick={() => setShowEmail(!showEmail)}
             >
               {user.providerData[0].providerId === 'google.com' ? (
                 <FaGoogle className="text-gray-700 text-lg" />

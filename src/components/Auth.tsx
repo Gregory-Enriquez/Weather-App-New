@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { auth, GoogleAuthProvider, GithubAuthProvider, signInWithPopup, signOut } from '../firebaseConfig';
 
 const Auth = () => {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<unknown>(null);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
