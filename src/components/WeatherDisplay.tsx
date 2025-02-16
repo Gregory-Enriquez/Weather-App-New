@@ -18,20 +18,20 @@ const WeatherDisplay = ({ weather }: WeatherDisplayProps) => {
     <div>
       <h2 className="text-2xl font-semibold text-gray-800">{weather.name}</h2>
       <div className="flex justify-center mt-4">
-        <WeatherIcon code={weather.weather[0].icon} />
+        <WeatherIcon code={weather.weather[0].icon} description={weather.weather[0].description} />
       </div>
       <p className="text-gray-700 text-lg mt-2">{translateWeather(weather.weather[0].description)}</p>
       <div className="flex justify-center space-x-6 mt-4">
         <div className="flex items-center space-x-2">
-          <FaThermometerHalf className="text-gray-700 text-xl" />
+          <FaThermometerHalf data-testid="thermometer-icon" className="text-gray-700 text-xl" />
           <p className="text-gray-700">{weather.main.temp}°C</p>
         </div>
         <div className="flex items-center space-x-2">
-          <FaTint className="text-gray-700 text-xl" />
+          <FaTint data-testid="humidity-icon" className="text-gray-700 text-xl" />
           <p className="text-gray-700">{weather.main.humidity}%</p>
         </div>
         <div className="flex items-center space-x-2">
-          <FaWind className="text-gray-700 text-xl" />
+          <FaWind data-testid="wind-icon" className="text-gray-700 text-xl" />
           <p className="text-gray-700">{weather.wind.speed} m/s</p>
         </div>
       </div>

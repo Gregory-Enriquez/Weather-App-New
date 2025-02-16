@@ -4,7 +4,12 @@ import { User } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { FaGoogle, FaGithub, FaSun } from 'react-icons/fa';
 
-const Login = () => {
+interface LoginProps {
+  handleGoogleLogin?: () => void;
+  handleGithubLogin?: () => void;
+}
+
+const Login = ({ handleGoogleLogin: propHandleGoogleLogin, handleGithubLogin: propHandleGithubLogin }: LoginProps) => {
   const [, setUser] = useState<User | null>(null);
   const navigate = useNavigate();
 
@@ -12,7 +17,7 @@ const Login = () => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         setUser(user);
-        navigate('/clima'); // Redirigir al clima después de iniciar sesión
+        navigate('/clima');
       } else {
         setUser(null);
       }
@@ -20,30 +25,30 @@ const Login = () => {
     return () => unsubscribe();
   }, [navigate]);
 
-  const handleGoogleLogin = async () => {
+  const handleGoogleLogin = propHandleGoogleLogin || (async () => {
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
     } catch (error) {
       console.error('Error al iniciar sesión con Google:', error);
     }
-  };
+  });
 
-  const handleGithubLogin = async () => {
+  const handleGithubLogin = propHandleGithubLogin || (async () => {
     const provider = new GithubAuthProvider();
     try {
       await signInWithPopup(auth, provider);
     } catch (error) {
       console.error('Error al iniciar sesión con GitHub:', error);
     }
-  };
+  });
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-400 to-purple-700 flex flex-col items-center justify-center p-4">
       <div className="bg-white bg-opacity-90 p-8 rounded-lg shadow-2xl w-full max-w-md text-center backdrop-blur-sm">
-        {/* Ícono del clima */}
+        {/* Ícono del sol */}
         <div className="flex justify-center mb-4">
-          <FaSun className="text-6xl text-yellow-400 animate-pulse" /> {/* Ícono de sol con animación */}
+          <FaSun className="text-6xl text-yellow-400 animate-pulse" data-testid="sun-icon" />
         </div>
         {/* Título de la aplicación */}
         <h1 className="text-4xl font-bold mb-2 text-gray-800 font-poppins">

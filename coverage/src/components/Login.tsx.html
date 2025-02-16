@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90.9% </span>
+                <span class="strong">54.54% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>20/22</span>
+                <span class='fraction'>12/22</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">83.33% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>5/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>6/6</span>
+                <span class='fraction'>4/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90.47% </span>
+                <span class="strong">52.38% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>19/21</span>
+                <span class='fraction'>11/21</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -140,7 +140,17 @@
 <a name='L75'></a><a href='#L75'>75</a>
 <a name='L76'></a><a href='#L76'>76</a>
 <a name='L77'></a><a href='#L77'>77</a>
-<a name='L78'></a><a href='#L78'>78</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -151,30 +161,30 @@
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -223,15 +233,20 @@ import { User } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { FaGoogle, FaGithub, FaSun } from 'react-icons/fa';
 &nbsp;
-const Login = () =&gt; {
+interface LoginProps {
+  handleGoogleLogin?: () =&gt; void;
+  handleGithubLogin?: () =&gt; void;
+}
+&nbsp;
+const Login = ({ handleGoogleLogin: propHandleGoogleLogin, handleGithubLogin: propHandleGithubLogin }: LoginProps) =&gt; {
   const [, setUser] = useState&lt;User | null&gt;(null);
   const navigate = useNavigate();
 &nbsp;
   useEffect(() =&gt; {
     const unsubscribe = auth.onAuthStateChanged((user) =&gt; {
-      if (user) {
-        setUser(user);
-        navigate('/clima'); // Redirigir al clima después de iniciar sesión
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (user) {
+<span class="cstat-no" title="statement not covered" >        setUser(user);</span>
+<span class="cstat-no" title="statement not covered" >        navigate('/clima');</span>
       } else {
         setUser(null);
       }
@@ -239,30 +254,30 @@ const Login = () =&gt; {
     return () =&gt; unsubscribe();
   }, [navigate]);
 &nbsp;
-  const handleGoogleLogin = async () =&gt; {
-    const provider = new GoogleAuthProvider();
-    try {
-      await signInWithPopup(auth, provider);
+  const handleGoogleLogin = propHandleGoogleLogin || (<span class="fstat-no" title="function not covered" >async () =&gt; {</span>
+    const provider = <span class="cstat-no" title="statement not covered" >new GoogleAuthProvider();</span>
+<span class="cstat-no" title="statement not covered" >    try {</span>
+<span class="cstat-no" title="statement not covered" >      await signInWithPopup(auth, provider);</span>
     } catch (error) {
 <span class="cstat-no" title="statement not covered" >      console.error('Error al iniciar sesión con Google:', error);</span>
     }
-  };
+  });
 &nbsp;
-  const handleGithubLogin = async () =&gt; {
-    const provider = new GithubAuthProvider();
-    try {
-      await signInWithPopup(auth, provider);
+  const handleGithubLogin = propHandleGithubLogin || (<span class="fstat-no" title="function not covered" >async () =&gt; {</span>
+    const provider = <span class="cstat-no" title="statement not covered" >new GithubAuthProvider();</span>
+<span class="cstat-no" title="statement not covered" >    try {</span>
+<span class="cstat-no" title="statement not covered" >      await signInWithPopup(auth, provider);</span>
     } catch (error) {
 <span class="cstat-no" title="statement not covered" >      console.error('Error al iniciar sesión con GitHub:', error);</span>
     }
-  };
+  });
 &nbsp;
   return (
     &lt;div className="min-h-screen bg-gradient-to-br from-blue-400 to-purple-700 flex flex-col items-center justify-center p-4"&gt;
       &lt;div className="bg-white bg-opacity-90 p-8 rounded-lg shadow-2xl w-full max-w-md text-center backdrop-blur-sm"&gt;
-        {/* Ícono del clima */}
+        {/* Ícono del sol */}
         &lt;div className="flex justify-center mb-4"&gt;
-          &lt;FaSun className="text-6xl text-yellow-400 animate-pulse" /&gt; {/* Ícono de sol con animación */}
+          &lt;FaSun className="text-6xl text-yellow-400 animate-pulse" data-testid="sun-icon" /&gt;
         &lt;/div&gt;
         {/* Título de la aplicación */}
         &lt;h1 className="text-4xl font-bold mb-2 text-gray-800 font-poppins"&gt;
@@ -301,7 +316,7 @@ export default Login;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-15T19:49:24.070Z
+                at 2025-02-16T01:14:46.860Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

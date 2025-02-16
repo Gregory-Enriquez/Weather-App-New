@@ -130,6 +130,7 @@ const App = () => {
       className={`min-h-screen flex flex-col items-center justify-center p-4 transition-colors duration-500 font-poppins ${
         weather ? getBackgroundClass(weather.weather[0].icon) : 'bg-gradient-to-br from-gray-100 to-gray-300'
       }`}
+      data-testid="app-container"
     >
       {/* Barra superior con la información del usuario y el botón de cerrar sesión */}
       {user && (
@@ -137,18 +138,18 @@ const App = () => {
       )}
 
       {/* Contenedor principal */}
-      <div className="bg-white bg-opacity-90 p-8 rounded-lg shadow-2xl w-full max-w-4xl backdrop-blur-sm">
-        <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">App del Clima</h1>
+      <div className="bg-white bg-opacity-90 p-8 rounded-lg shadow-2xl w-full max-w-4xl backdrop-blur-sm" data-testid="main-container">
+        <h1 className="text-3xl font-bold mb-6 text-center text-gray-800" data-testid="app-title">App del Clima</h1>
 
         {/* Barra de búsqueda */}
         <SearchBar city={city} setCity={setCity} handleSearch={handleSearch} loading={loading} />
 
         {/* Mensaje de error */}
-        {error && <p className="text-red-500 mt-4 text-center">{error}</p>}
+        {error && <p className="text-red-500 mt-4 text-center" data-testid="error-message">{error}</p>}
 
         {/* Mostrar el clima actual */}
         {weather && (
-          <div className={`mt-6 ${cityImage ? 'grid grid-cols-1 md:grid-cols-2 gap-6' : 'text-center'}`}>
+          <div className={`mt-6 ${cityImage ? 'grid grid-cols-1 md:grid-cols-2 gap-6' : 'text-center'}`} data-testid="weather-display">
             <WeatherDisplay weather={weather} />
             {cityImage && (
               <div className="flex justify-center items-center">
@@ -156,6 +157,7 @@ const App = () => {
                   src={cityImage}
                   alt={city}
                   className="rounded-lg shadow-lg w-full h-64 object-cover"
+                  data-testid="city-image"
                 />
               </div>
             )}

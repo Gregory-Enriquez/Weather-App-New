@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for src/components/WeatherIcon.tsx</title>
+    <title>Code coverage report for src/components/UserInfo.tsx</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">src/components</a> WeatherIcon.tsx</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">src/components</a> UserInfo.tsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>16/16</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>22/22</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>16/16</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
@@ -90,61 +90,82 @@
 <a name='L25'></a><a href='#L25'>25</a>
 <a name='L26'></a><a href='#L26'>26</a>
 <a name='L27'></a><a href='#L27'>27</a>
-<a name='L28'></a><a href='#L28'>28</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">17x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">15x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { FaSun, FaCloud, FaSnowflake, FaBolt, FaWind, FaCloudSun, FaCloudShowersHeavy } from 'react-icons/fa';
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { User } from 'firebase/auth';
+import { FaGoogle, FaGithub, FaSignOutAlt } from 'react-icons/fa';
 &nbsp;
-interface WeatherIconProps {
-  code: string;
-  description?: string; // Añade una prop para la descripción
+interface UserInfoProps {
+  user: User;
+  handleLogout: () =&gt; void;
+  showEmail: boolean;
+  setShowEmail: (show: boolean) =&gt; void;
 }
 &nbsp;
-const WeatherIcon = ({ code, description }: WeatherIconProps) =&gt; {
-  if (code === '01d' || code === '01n') {
-    return &lt;FaSun className="text-yellow-400 text-4xl" data-testid="weather-icon-sun" aria-label={description} role="img" /&gt;; // Soleado
-  } else if (code === '02d' || code === '02n') {
-    return &lt;FaCloudSun className="text-gray-400 text-4xl" data-testid="weather-icon-cloud-sun" aria-label={description} role="img" /&gt;; // Parcialmente nublado
-  } else if (code.startsWith('03') || code.startsWith('04')) {
-    return &lt;FaCloud className="text-gray-600 text-4xl" data-testid="weather-icon-cloud" aria-label={description} role="img" /&gt;; // Nublado
-  } else if (code.startsWith('09') || code.startsWith('10')) {
-    return &lt;FaCloudShowersHeavy className="text-blue-500 text-4xl" data-testid="weather-icon-rain" aria-label={description} role="img" /&gt;; // Lluvia
-  } else if (code.startsWith('11')) {
-    return &lt;FaBolt className="text-yellow-500 text-4xl" data-testid="weather-icon-bolt" aria-label={description} role="img" /&gt;; // Tormenta
-  } else if (code.startsWith('13')) {
-    return &lt;FaSnowflake className="text-blue-300 text-4xl" data-testid="weather-icon-snowflake" aria-label={description} role="img" /&gt;; // Nieve
-  } else if (code.startsWith('50')) {
-    return &lt;FaWind className="text-gray-500 text-4xl" data-testid="weather-icon-wind" aria-label={description} role="img" /&gt;; // Neblina o viento
-  } else {
-    return &lt;FaSun className="text-yellow-400 text-4xl" data-testid="weather-icon-default" aria-label={description} role="img" /&gt;; // Por defecto: sol
-  }
+const UserInfo = ({ user, handleLogout, showEmail, setShowEmail }: UserInfoProps) =&gt; {
+  return (
+    &lt;div className="absolute top-4 right-4 bg-white bg-opacity-80 p-2 rounded-lg shadow-sm"&gt;
+      &lt;div className="flex items-center space-x-3"&gt;
+        &lt;div className="cursor-pointer" onClick={() =&gt; setShowEmail(!showEmail)}&gt;
+          {user.providerData[0].providerId === 'google.com' ? (
+            &lt;FaGoogle className="text-gray-700 text-lg" data-testid="google-icon" /&gt;
+          ) : (
+            &lt;FaGithub className="text-gray-700 text-lg" data-testid="github-icon" /&gt;
+          )}
+        &lt;/div&gt;
+        &lt;button
+          onClick={handleLogout}
+          className="bg-red-500 text-white px-2 py-1 rounded-md text-sm hover:bg-red-600 transition-colors flex items-center space-x-1"
+        &gt;
+          &lt;FaSignOutAlt className="text-sm" /&gt;
+          &lt;span&gt;Cerrar sesión&lt;/span&gt;
+        &lt;/button&gt;
+      &lt;/div&gt;
+      {showEmail &amp;&amp; &lt;p className="text-gray-700 text-sm mt-2 text-center"&gt;{user.email}&lt;/p&gt;}
+    &lt;/div&gt;
+  );
 };
 &nbsp;
-export default WeatherIcon;</pre></td></tr></table></pre>
+export default UserInfo;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->

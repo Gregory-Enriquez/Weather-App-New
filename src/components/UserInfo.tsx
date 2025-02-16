@@ -14,9 +14,9 @@ const UserInfo = ({ user, handleLogout, showEmail, setShowEmail }: UserInfoProps
       <div className="flex items-center space-x-3">
         <div className="cursor-pointer" onClick={() => setShowEmail(!showEmail)}>
           {user.providerData[0].providerId === 'google.com' ? (
-            <FaGoogle className="text-gray-700 text-lg" />
+            <FaGoogle className="text-gray-700 text-lg" data-testid="google-icon" />
           ) : (
-            <FaGithub className="text-gray-700 text-lg" />
+            <FaGithub className="text-gray-700 text-lg" data-testid="github-icon" />
           )}
         </div>
         <button
